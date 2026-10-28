@@ -7,5 +7,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(raylib CONFIG REQUIRED)
 
-add_executable(pong src/main.cpp)
+add_executable(pong
+	src/main.cpp
+	src/Game.cpp
+)
+
 target_link_libraries(pong PRIVATE raylib)
