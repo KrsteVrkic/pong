@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "app/Game.hpp"
 
 int main() {
   Game game;

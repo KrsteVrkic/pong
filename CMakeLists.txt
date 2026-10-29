@@ -9,7 +9,7 @@ find_package(raylib CONFIG REQUIRED)
 
 add_executable(pong
 	src/main.cpp
-	src/Game.cpp
+	src/app/Game.cpp
 )
 
 target_link_libraries(pong PRIVATE raylib)
