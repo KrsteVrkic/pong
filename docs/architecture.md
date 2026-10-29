@@ -1,8 +1,8 @@
 # Pong architecture
 
-The current project is a small C++20/raylib prototype: `src/main.cpp` starts
-`Game`, and `Game::Run()` owns the window, loop, update and drawing. Keep this
-working baseline while separating responsibilities as the game grows.
+The project is a small C++20/raylib prototype. `src/main.cpp` starts `Game`;
+`Game::Run()` owns the window and loop; `Renderer` draws the current core state.
+This is an early separation of responsibilities, not a finished game engine.
 
 ## Proposed structure
 
@@ -23,8 +23,14 @@ src/
   platform/              # raylib-facing window/audio/resource adapters
   render/                # world and presentation rendering
   ui/                    # menus, HUD, settings and accessibility UI
-  Game.cpp               # temporary legacy implementation during migration
-  Game.h
+  app/
+    Game.cpp             # window and top-level loop
+    Game.hpp
+  core/
+    GameState.hpp        # plain game data, independent of raylib
+  render/
+    Renderer.cpp         # translates game data into raylib drawing calls
+    Renderer.hpp
   main.cpp
 tests/
   unit/                  # isolated rules and systems
@@ -33,8 +39,8 @@ tests/
 
 ## Ownership and update flow
 
-`app` constructs the dependencies and runs a fixed-step simulation. `core`
-owns match/session state and shared event types, but does not depend on raylib.
+`app` creates the window and runs the loop. `core` owns plain match/session
+data and shared event types, but does not depend on raylib.
 `gameplay` owns the ball, paddles, collision and scoring rules. `input` turns
 keyboard/gamepad state into player actions. `render` and `ui` read state and
 draw it; they do not change match rules. `platform` contains the raylib
@@ -44,6 +50,17 @@ The loop should gather input, advance simulation in fixed time steps, publish
 events such as `PointScored` or `RoundStarted`, then render. Keep the simulation
 deterministic and pass time explicitly. This makes replay, rollback, AI,
 network play and repeatable tests possible later.
+
+## Why `GameState` has no raylib types
+
+`GameState` describes what is happening in the game: for now, the ball's x/y
+position and radius. It uses ordinary C++ numbers. It does not say how to draw
+the ball. `Renderer` reads those numbers and calls raylib's `DrawCircle`.
+
+This boundary means the game rules can use or test `GameState` without opening
+a window or loading raylib. It also lets rendering change (colors, effects,
+sprites) without changing the meaning of the game data. The app connects the
+two: it creates the state, then asks the renderer to draw it each frame.
 
 ## Adding mechanics
 

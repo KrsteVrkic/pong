@@ -1,5 +1,6 @@
 #include "Game.hpp"
 #include "../core/GameState.hpp"
+#include "../render/Renderer.hpp"
 #include <raylib.h>
 
 void Game::Run() {
@@ -8,18 +9,12 @@ void Game::Run() {
     InitWindow(screenWidth, screenHeight, "pong");
     SetTargetFPS(60);
 
-       GameState state;
+    GameState state;
+    Renderer renderer;
 
     while (!WindowShouldClose()) {
         // TODO: Update game logic / physics here later
-
-        BeginDrawing();
-        ClearBackground(BLACK);
-        
-        // Draw using data from core state instead of hardcoded numbers
-        DrawCircle(state.ball.x, state.ball.y, state.ball.radius, WHITE);
-        
-        EndDrawing();
+        renderer.Draw(state);
     }
 
     CloseWindow();
