@@ -4,7 +4,6 @@
 void Game::Run() {
   int screenWidth = 800;
   int screenHeight = 450;
-  
   InitWindow(screenWidth, screenHeight, "pong");
   SetTargetFPS(60);
 
