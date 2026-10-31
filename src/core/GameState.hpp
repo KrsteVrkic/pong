@@ -1,22 +1,26 @@
 #pragma once
 
 struct Ball {
-    float x;
-    float y;
-    float radius;
+  float x{400.0f};
+  float y{225.0f};
+  float radius{10.0f};
+  float speedX{260.0f};
+  float speedY{180.0f};
 };
 
 struct Paddle {
-    float x;
-    float y;
-    float width;
-    float height;
+  float x;
+  float y;
+  float width{12.0f};
+  float height{80.0f};
+  float speed{320.0f};
 };
 
 struct GameState {
-    Ball ball{400.0f, 225.0f, 10.0f};
-    Paddle leftPaddle{32.0f, 185.0f, 12.0f, 80.0f};
-    Paddle rightPaddle{756.0f, 185.0f, 12.0f, 80.0f};
-    float fieldWidth{800.0f};
-    float fieldHeight{450.0f};
+  static constexpr float fieldWidth{800.0f};
+  static constexpr float fieldHeight{450.0f};
+
+  Ball ball{};
+  Paddle leftPaddle{32.0f, 185.0f};
+  Paddle rightPaddle{756.0f, 185.0f};
 };
