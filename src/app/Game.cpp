@@ -65,7 +65,6 @@ void UpdateGame(GameState& state, float deltaTime) {
 void Game::Run() {
     int screenWidth = 800;
     int screenHeight = 450;
-    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(screenWidth, screenHeight, "pong");
     SetTargetFPS(60);
 
