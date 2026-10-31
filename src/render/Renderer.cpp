@@ -10,7 +10,9 @@ void Renderer::Draw(const GameState& state) const {
 
   const float fieldWidth = static_cast<float>(GetScreenWidth());
   const float fieldHeight = static_cast<float>(GetScreenHeight());
-  divider.Draw(fieldWidth, fieldHeight, 15);
+  const int dividerGap = 15;
+  
+  divider.Draw(fieldWidth, fieldHeight, dividerGap);
 
   EndDrawing();
 }
