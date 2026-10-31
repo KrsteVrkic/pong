@@ -10,6 +10,8 @@ find_package(raylib CONFIG REQUIRED)
 add_executable(pong
 	src/main.cpp
 	src/app/Game.cpp
+	src/input/Input.cpp
+	src/gameplay/GameLogic.cpp
 	src/render/Divider.cpp
 	src/render/Renderer.cpp
 )
