@@ -5,18 +5,7 @@ project(Pong LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include(FetchContent)
-
-set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build static libraries" FORCE)
-set(BUILD_EXAMPLES OFF CACHE BOOL "Do not build raylib examples" FORCE)
-set(BUILD_GAMES OFF CACHE BOOL "Do not build raylib games" FORCE)
-
-FetchContent_Declare(
-	raylib
-	URL https://github.com/raysan5/raylib/archive/refs/tags/5.5.tar.gz
-	DOWNLOAD_EXTRACT_TIMESTAMP TRUE
-)
-FetchContent_MakeAvailable(raylib)
+find_package(raylib REQUIRED)
 
 add_executable(pong
 	src/main.cpp
@@ -28,4 +17,9 @@ add_executable(pong
 )
 
 target_link_libraries(pong PRIVATE raylib)
-target_link_options(pong PRIVATE -static-libstdc++ -static-libgcc)
+
+add_custom_command(TARGET pong POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+		"${CMAKE_SOURCE_DIR}/assets/audio"
+		"$<TARGET_FILE_DIR:pong>/assets/audio"
+)
