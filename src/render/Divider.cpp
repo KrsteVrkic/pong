@@ -4,7 +4,7 @@
 void Divider::Draw(float fieldWidth, float fieldHeight, int dashCount,
                    float offsetX, float offsetY) const {
   if (dashCount <= 0) return;
-  const float dividerWidth = fieldWidth * widthRatio;
+  const float dividerWidth = fieldHeight * widthRatio;
   const float dashHeight =
       fieldHeight / (dashCount + (dashCount - 1) * gapToDashRatio);
   const float dashStep = dashHeight * (1.0f + gapToDashRatio);

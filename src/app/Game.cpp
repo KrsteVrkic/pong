@@ -6,9 +6,11 @@
 #include "../render/Renderer.hpp"
 
 #include <raylib.h>
+#include <algorithm>
 
 void Game::Run() {
-  InitWindow(800, 450, "pong");
+  InitWindow(static_cast<int>(GameState::initialFieldWidth),
+             static_cast<int>(GameState::sceneHeight), "pong");
   SetTargetFPS(60);
 
   GameState state;
@@ -17,6 +19,11 @@ void Game::Run() {
   Renderer renderer;
 
   while (!WindowShouldClose()) {
+    const float scale = std::min(
+        static_cast<float>(GetScreenWidth()) / GameState::initialFieldWidth,
+        static_cast<float>(GetScreenHeight()) / GameState::sceneHeight);
+    state.SetFieldWidth(static_cast<float>(GetScreenWidth()) / scale);
+
     const PlayerInput playerInput = input.Read();
     gameLogic.Update(state, playerInput, GetFrameTime());
     renderer.Draw(state);

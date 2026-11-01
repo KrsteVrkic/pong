@@ -43,22 +43,22 @@ void GameLogic::Update(GameState& state, const PlayerInput& input,
     ball.speedY +=
         ((ball.y - (state.leftPaddle.y + state.leftPaddle.height / 2.0f)) /
          (state.leftPaddle.height / 2.0f)) *
-        70.0f;
+        210.0f;
   } else if (ball.speedX > 0.0f && Overlaps(ball, state.rightPaddle)) {
     ball.x = state.rightPaddle.x - ball.radius;
     ball.speedX = -std::abs(ball.speedX);
     ball.speedY +=
         ((ball.y - (state.rightPaddle.y + state.rightPaddle.height / 2.0f)) /
          (state.rightPaddle.height / 2.0f)) *
-        70.0f;
+        210.0f;
   }
 
   // Restart from the center when the ball leaves either side of the field.
   if (ball.x + ball.radius < 0.0f ||
-      ball.x - ball.radius > GameState::fieldWidth) {
-    ball.x = GameState::fieldWidth / 2.0f;
+      ball.x - ball.radius > state.fieldWidth) {
+    ball.x = state.fieldWidth / 2.0f;
     ball.y = GameState::fieldHeight / 2.0f;
-    ball.speedX = ball.speedX < 0.0f ? 260.0f : -260.0f;
-    ball.speedY = 180.0f;
+    ball.speedX = ball.speedX < 0.0f ? Ball::baseSpeedX : -Ball::baseSpeedX;
+    ball.speedY = Ball::baseSpeedY;
   }
 }
