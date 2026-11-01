@@ -33,6 +33,7 @@ struct GameState {
   static constexpr float sceneHeight{uiHeight + fieldHeight};
 
   float fieldWidth{initialFieldWidth};
+  float serveDelay{0.0f};
   Ball ball{};
   Player player1{Paddle{32.0f, 185.0f}};
   Player player2{Paddle{756.0f, 185.0f}};

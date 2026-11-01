@@ -11,7 +11,12 @@
 void Game::Run() {
   InitWindow(static_cast<int>(GameState::initialFieldWidth),
              static_cast<int>(GameState::sceneHeight), "pong");
+  InitAudioDevice();
   SetTargetFPS(60);
+
+  Sound paddleHit = LoadSound("assets/audio/paddle_hit.wav");
+  Sound wallHit = LoadSound("assets/audio/wall_hit.wav");
+  Sound score = LoadSound("assets/audio/score.wav");
 
   GameState state;
   Input input;
@@ -25,9 +30,16 @@ void Game::Run() {
     state.SetFieldWidth(static_cast<float>(GetScreenWidth()) / scale);
 
     const PlayerInput playerInput = input.Read();
-    gameLogic.Update(state, playerInput, GetFrameTime());
+    const GameEvents events = gameLogic.Update(state, playerInput, GetFrameTime());
+    if (events.paddleHit) PlaySound(paddleHit);
+    if (events.wallHit) PlaySound(wallHit);
+    if (events.pointScored) PlaySound(score);
     renderer.Draw(state);
   }
 
+  UnloadSound(paddleHit);
+  UnloadSound(wallHit);
+  UnloadSound(score);
+  CloseAudioDevice();
   CloseWindow();
 }
