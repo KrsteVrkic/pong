@@ -11,6 +11,7 @@
 void Game::Run() {
   InitWindow(static_cast<int>(GameState::initialFieldWidth),
              static_cast<int>(GameState::sceneHeight), "pong");
+  ChangeDirectory(GetApplicationDirectory());
   InitAudioDevice();
   SetTargetFPS(60);
 
