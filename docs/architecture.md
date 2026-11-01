@@ -71,14 +71,6 @@ systems. Examples include power-ups, spin, curved shots, shields, arena hazards,
 and alternate scoring. Keep base Pong rules independent so mechanics can be
 enabled per mode and tested in isolation.
 
-## Migration order
-
-1. Move window and loop ownership from `Game` into `app`/`GameSession`.
-2. Extract input, update and drawing without changing behavior.
-3. Move ball/paddle/scoring rules into `gameplay` and add fixed-step timing.
-4. Add event types and mechanic lifecycle once a first mechanic is needed.
-5. Add unit tests for rules and integration tests for match flow.
-
 Avoid introducing an entity-component framework or a general plugin system
 until the game has concrete needs for them. Small explicit systems fit Pong
 better and keep new mechanics easy to understand.
