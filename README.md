@@ -20,7 +20,9 @@ The game loads its audio from `dist/pong-linux-x86_64/assets/audio/`.
 
 - Player 1: `W` / `S` to move; hold `Left Shift` to boost.
 - Player 2: `Up` / `Down` arrows to move; hold `Right Shift` to boost.
+- Super + f: Fullscreen
 - Close the game window to quit.
+
 
 ## License
 
