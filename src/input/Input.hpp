@@ -1,8 +1,10 @@
 #pragma once
 
 struct PlayerInput {
-  float leftPaddleDirection{0.0f};
-  float rightPaddleDirection{0.0f};
+  float player1PaddleDirection{0.0f};
+  float player2PaddleDirection{0.0f};
+  bool player1Boost{false};
+  bool player2Boost{false};
 };
 
 class Input {

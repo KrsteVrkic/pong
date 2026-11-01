@@ -19,6 +19,13 @@ struct Paddle {
   float speed{320.0f};
 };
 
+struct Player {
+  Paddle paddle;
+  int score{0};
+  int comboHits{0};
+  float exMeter{0.0f};
+};
+
 struct GameState {
   static constexpr float initialFieldWidth{800.0f};
   static constexpr float fieldHeight{450.0f};
@@ -27,14 +34,14 @@ struct GameState {
 
   float fieldWidth{initialFieldWidth};
   Ball ball{};
-  Paddle leftPaddle{32.0f, 185.0f};
-  Paddle rightPaddle{756.0f, 185.0f};
+  Player player1{Paddle{32.0f, 185.0f}};
+  Player player2{Paddle{756.0f, 185.0f}};
 
   void SetFieldWidth(float newWidth) {
     if (newWidth <= 0.0f || newWidth == fieldWidth) return;
     const float scale = newWidth / fieldWidth;
     ball.x *= scale;
     fieldWidth = newWidth;
-    rightPaddle.x = fieldWidth - 32.0f - rightPaddle.width;
+    player2.paddle.x = fieldWidth - 32.0f - player2.paddle.width;
   }
 };
