@@ -1,8 +1,19 @@
 #pragma once
 
+enum class MainMenuAction {
+  None,
+  Play,
+  Settings,
+  Quit
+};
+
 class MainMenu {
 public:
-  bool Update() const;
-  void Draw();
+  MainMenuAction Update();
+  void Draw() const;
+  void DrawSettings() const;
+
+private:
+  int selectedOption{0};
 };
 

@@ -16,6 +16,9 @@ void Game::Run() {
              static_cast<int>(GameState::sceneHeight),
 	     "pong"
 	    );
+
+  // Escape is used for in-game navigation, not to close the window.
+  SetExitKey(KEY_NULL);
   
   ChangeDirectory(GetApplicationDirectory());
   InitAudioDevice();
@@ -32,18 +35,49 @@ void Game::Run() {
   MainMenu mainMenu;
 
   GameMode gameMode = GameMode::MainMenu;
+  bool shouldQuit = false;
 
-  while (!WindowShouldClose()) {
+  while (!WindowShouldClose() && !shouldQuit) {
     switch (gameMode) {
 
-    case GameMode::MainMenu:
+    case GameMode::MainMenu: {
+      const MainMenuAction action = mainMenu.Update();
       mainMenu.Draw();
-      if (mainMenu.Update()) {
-        gameMode = GameMode::Playing;
+      switch (action) {
+        case MainMenuAction::Play:
+          state = GameState{};
+          gameMode = GameMode::Playing;
+          break;
+        case MainMenuAction::Settings:
+          gameMode = GameMode::Settings;
+          break;
+        case MainMenuAction::Quit:
+          shouldQuit = true;
+          break;
+        case MainMenuAction::None:
+          break;
       }
       break;
+    }
+
+    case GameMode::Settings: {
+      if (IsKeyPressed(KEY_ESCAPE)) gameMode = GameMode::MainMenu;
+      mainMenu.DrawSettings();
+      break;
+    }
 
     case GameMode::Playing: {
+      if (IsKeyPressed(KEY_ESCAPE)) {
+        gameMode = GameMode::MainMenu;
+        break;
+      }
+
+      if (IsKeyPressed(KEY_SPACE)) {
+        gameMode = GameMode::Paused;
+        renderer.Draw(state, true);
+        break;
+      }
+
       const float scale = std::min(
 				   static_cast<float>(GetScreenWidth()) /
 				   GameState::initialFieldWidth,
@@ -71,8 +105,14 @@ void Game::Run() {
       break;
     }  
 
-    case GameMode::Paused:
+    case GameMode::Paused: {
+      const bool resume = IsKeyPressed(KEY_SPACE);
+      const bool returnToMenu = IsKeyPressed(KEY_ESCAPE);
+      renderer.Draw(state, true);
+      if (resume) gameMode = GameMode::Playing;
+      if (returnToMenu) gameMode = GameMode::MainMenu;
       break;
+    }
 
     case GameMode::GameOver:
       break;

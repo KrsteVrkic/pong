@@ -5,7 +5,7 @@
 #include <raylib.h>
 #include <algorithm>
 
-void Renderer::Draw(const GameState& state) const {
+void Renderer::Draw(const GameState& state, bool paused) const {
   BeginDrawing();
   ClearBackground(Color{24, 24, 24, 255});
 
@@ -77,6 +77,17 @@ void Renderer::Draw(const GameState& state) const {
   DrawCircleV(Vector2{fieldOffsetX + state.ball.x * scale,
                      fieldOffsetY + state.ball.y * scale},
               state.ball.radius * scale, WHITE);
+
+  if (paused) {
+    const Color overlay{0, 0, 0, 165};
+    DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), overlay);
+    const char* pausedText = "PAUSED";
+    const int pausedFontSize = static_cast<int>(42.0f * scale);
+    DrawText(pausedText,
+             (GetScreenWidth() - MeasureText(pausedText, pausedFontSize)) / 2,
+             (GetScreenHeight() - pausedFontSize) / 2,
+             pausedFontSize, WHITE);
+  }
 
   EndDrawing();
 }
