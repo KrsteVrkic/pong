@@ -27,6 +27,10 @@ void Game::Run() {
   Sound paddleHit = LoadSound("assets/audio/paddle_hit.wav");
   Sound wallHit = LoadSound("assets/audio/wall_hit.wav");
   Sound score = LoadSound("assets/audio/score.wav");
+  constexpr float soundVolumeMinus6Db = 0.501187f;
+  SetSoundVolume(paddleHit, soundVolumeMinus6Db);
+  SetSoundVolume(wallHit, soundVolumeMinus6Db);
+  SetSoundVolume(score, soundVolumeMinus6Db);
 
   GameState state;
   Input input;
