@@ -14,6 +14,7 @@ add_executable(pong
 	src/gameplay/GameLogic.cpp
 	src/render/Divider.cpp
 	src/render/Renderer.cpp
+	src/ui/MainMenu.cpp
 )
 
 target_link_libraries(pong PRIVATE raylib)
